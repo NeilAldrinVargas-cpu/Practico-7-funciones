@@ -1,0 +1,29 @@
+#include <iostream>
+#include <cmath>
+
+using namespace std;
+int FACTORIAL(int numero);
+
+int main(){
+    int numero;
+    cout<<"---CALCULADORA FACTORIAL---"<<endl;
+    cout<<"Ingrese el numero entero positivo:";
+    cin>>numero;
+
+    if(numero>0){
+        int resultado=FACTORIAL(numero);
+        cout<<"el resultado es: "<<resultado<<endl;
+
+    }else{ cout <<" Numero invalido no se puede hacer factorial:";}
+
+return 0;
+}
+
+int FACTORIAL(int numero){
+   int factorial=1;
+   for(int i=1;i<=numero;i++){
+        factorial=factorial*i;
+}
+
+return factorial;
+}
