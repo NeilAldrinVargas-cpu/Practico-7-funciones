@@ -1,0 +1,46 @@
+#include <iostream>
+#include <cmath>
+
+using namespace std;
+float NUMERADOR(float base, int exponente);
+int FACTORIAL(int numero);
+
+int main(){
+    int X, N;
+    float sumaTotal=0;
+
+    cout<<"---CALCULADORA---"<<endl;
+    cout<<"Ingrese el valor de x:";
+    cin>>X;
+    cout<<"Ingrese el valor de N:";
+    cin>>N;
+
+
+    if(X<=0 || N<=0){
+        cout<<"No se puede hacer la operacion"<<endl;
+         return 1;
+    }
+
+for (int i = 1; i <= N; i++) {
+        float termino = NUMERADOR(X, i) / FACTORIAL(i);
+        sumaTotal += termino;
+    }
+
+  cout<<"el resultado de la suma es: "<< sumaTotal<<endl;
+return 0;
+}
+
+float NUMERADOR(float base, int exponente){
+   float numerador=pow(base, exponente);
+   return numerador;
+}
+
+
+
+int FACTORIAL(int numero) {
+    int factorial = 1;
+    for (int i = 1; i <= numero; i++) {
+        factorial = factorial * i;
+    }
+    return factorial;
+}
