@@ -1,0 +1,71 @@
+#include <iostream>
+#include <cmath> // Necesaria para usar sqrt() (raiz cuadrada)
+
+using namespace std;
+
+// --- PROCEDIMIENTO PARA RESOLVER LA ECUACIÓN ---
+void resolverCuadratica(double a, double b, double c) {
+    
+    // Validación: Si 'a' es 0, no es una ecuación cuadrática, es lineal
+    if (a == 0) {
+        if (b != 0) {
+            cout << "No es cuadratica, es una ecuacion lineal. Raiz unica = " << -c / b << endl;
+        } else {
+            cout << "Ecuacion invalida." << endl;
+        }
+        return;
+    }
+
+    // Calcular el discriminante
+    double discriminante = (b * b) - (4 * a * c);
+
+    cout << "\n--- RESULTADO ---" << endl;
+
+    // EVALUACIÓN DE LOS 3 CASOS
+    
+    // CASO 1: Dos raíces reales y distintas
+    if (discriminante > 0) {
+        double x1 = (-b + sqrt(discriminante)) / (2 * a);
+        double x2 = (-b - sqrt(discriminante)) / (2 * a);
+        cout << "Caso: Dos raices reales distintas." << endl;
+        cout << "X1 = " << x1 << endl;
+        cout << "X2 = " << x2 << endl;
+    }
+    
+    // CASO 2: Una raíz doble (Raíces reales e iguales)
+    else if (discriminante == 0) {
+        double x = -b / (2 * a);
+        cout << "Caso: Una raiz doble (raices reales iguales)." << endl;
+        cout << "X1 = X2 = " << x << endl;
+    }
+    
+    // CASO 3: Dos raíces complejas / imaginarias (Discriminante negativo)
+    else {
+        // Al ser negativo, sacamos la parte real y la imaginaria por separado
+        double parteReal = -b / (2 * a);
+        // Usamos -discriminante para volverlo positivo antes de aplicar la raíz
+        double parteImaginaria = sqrt(-discriminante) / (2 * a); 
+        
+        cout << "Caso: Dos raices complejas / imaginarias." << endl;
+        cout << "X1 = " << parteReal << " + " << parteImaginaria << "i" << endl;
+        cout << "X2 = " << parteReal << " - " << parteImaginaria << "i" << endl;
+    }
+}
+
+// --- PROGRAMA PRINCIPAL ---
+int main() {
+    double a, b, c;
+
+    cout << "=== RESOLUTOR DE ECUACIONES CUADRATICAS ===" << endl;
+    cout << "Formato: ax^2 + bx + c = 0" << endl;
+
+    // Solicitar coeficientes al usuario
+    cout << "Ingrese el coeficiente a: ";   cin >> a;
+    cout << "Ingrese el coeficiente b: ";   cin >> b;
+    cout << "Ingrese el coeficiente c: ";   cin >> c;
+
+    // Llamar al procedimiento
+    resolverCuadratica(a, b, c);
+
+    return 0;
+}
