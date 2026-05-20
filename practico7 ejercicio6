@@ -1,0 +1,71 @@
+#include <iostream>
+
+using namespace std;
+
+// --- PROCEDIMIENTO LITERAL ---
+// Recibe el día, mes y año ingresados por el usuario y los imprime en texto
+void LITERAL(int dia, int mes, int anio) {
+    
+    // 1. Imprimir el día seguido de " de "
+    cout << dia << " de ";
+
+    // 2. Convertir el número del mes a su nombre en letras usando un switch
+    switch (mes) {
+        case 1:  cout << "Enero";      break;
+        case 2:  cout << "Febrero";    break;
+        case 3:  cout << "Marzo";      break;
+        case 4:  cout << "Abril";      break;
+        case 5:  cout << "Mayo";       break;
+        case 6:  cout << "Junio";      break;
+        case 7:  cout << "Julio";      break;
+        case 8:  cout << "Agosto";     break;
+        case 9:  cout << "Septiembre"; break;
+        case 10: cout << "Octubre";    break;
+        case 11: cout << "Noviembre";  break;
+        case 12: cout << "Diciembre";  break;
+        default: cout << "[Mes invalido]"; break;
+    }
+
+    // 3. Imprimir el conector " de " antes del año
+    cout << " de ";
+
+    // 4. Si el usuario ingresó un año corto (de 0 a 99), le sumamos 1900 para que sea de 4 dígitos
+    if (anio >= 0 && anio <= 99) {
+        cout << 1900 + rint(anio); 
+        // Nota: en C++ plano simplemente ponemos 1900 + anio
+        cout << 1900 + anio;
+    } else {
+        cout << anio; // Si ya puso el año completo (ej. 2026), se imprime igual
+    }
+    
+    cout << endl; // Salto de línea final
+}
+
+// --- PROGRAMA PRINCIPAL ---
+int main() {
+    // Variables locales para capturar lo que escriba el usuario
+    int d, m, a;
+
+    cout << "=== CONVERTIDOR DE FECHAS A TEXTO ===" << endl;
+    
+    // 1. Solicitar los datos al usuario desde el teclado
+    cout << "Ingrese el dia (ej. 20): ";
+    cin >> d;
+    
+    cout << "Ingrese el numero de mes (ej. 5): ";
+    cin >> m;
+    
+    cout << "Ingrese el anio (ej. 99 o 1999): ";
+    cin >> a;
+
+    // 2. Mostrar una línea divisoria decorativa
+    cout << "---------------------------------------" << endl;
+    cout << "Fecha convertida: ";
+
+    // 3. Llamar al procedimiento pasando las variables que el usuario digitó
+    LITERAL(d, m, a);
+    
+    cout << "---------------------------------------" << endl;
+
+    return 0;
+}
