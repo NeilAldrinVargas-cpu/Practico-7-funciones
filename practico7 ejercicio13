@@ -1,0 +1,39 @@
+#include <iostream>
+#include <cmath> // Necesaria para usar pow() (potencias)
+
+using namespace std;
+
+// --- PROTOTIPO DE LA FUNCIÓN (ARRIBA) ---
+double redondearNumero(double R, int n);
+
+// --- PROGRAMA PRINCIPAL ---
+int main() {
+    double numeroReal;
+    int decimales;
+
+    cout << "=== REDONDEADOR DE DECIMALES ===" << endl;
+    cout << "Ingrese el numero real (ej. 15.6784): ";
+    cin >> numeroReal;
+    
+    cout << "Cantidad de decimales deseados: ";
+    cin >> decimales;
+
+    // Llamada a la función
+    double resultado = redondearNumero(numeroReal, decimales);
+
+    cout << "\nEl numero redondeado es: " << resultado << endl;
+
+    return 0;
+}
+
+// --- DESARROLLO DE LA FUNCIÓN (ABAJO) ---
+double redondearNumero(double R, int n) {
+    // Calculamos el factor multiplicador (10 elevado a la n)
+    double factor = pow(10, n);
+    
+    // Multiplicamos, usamos round de cmath para redondear al entero más cercano, 
+    // y dividimos de nuevo por el factor.
+    double resultadoRedondeado = round(R * factor) / factor;
+    
+    return resultadoRedondeado;
+}
