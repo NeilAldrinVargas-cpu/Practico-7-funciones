@@ -1,0 +1,49 @@
+#include <iostream>
+
+using namespace std;
+
+// --- 1. FUNCIÓN FACTORIAL: FAC(n) ---
+// Esta función recibe un número entero y retorna su factorial.
+// Usamos 'long long' porque los factoriales crecen muy rápido y necesitan espacio.
+long long FAC(int n) {
+    long long f = 1;
+    
+    // Multiplicamos sucesivamente desde 1 hasta n
+    for (int i = 1; i <= n; i++) {
+        f = f * i;
+    }
+    
+    return f; // Retorna el resultado del factorial
+}
+
+// --- 2. PROGRAMA PRINCIPAL ---
+int main() {
+    int n, r;
+    long long C;
+
+    cout << "=== CALCULADORA DE NUMERO COMBINATORIO ===" << endl;
+    
+    // Solicitar los valores al usuario
+    cout << "Ingrese el valor de n (total de elementos): ";
+    cin >> n;
+    
+    cout << "Ingrese el valor de r (elementos tomados): ";
+    cin >> r;
+
+    // Validación matemática básica: n debe ser mayor o que igual r, y no pueden ser negativos
+    if (n < 0 || r < 0 || n < r) {
+        cout << "\n[Error] Datos invalidos. Recuerda que n >= r y ambos deben ser positivos." << endl;
+        return 0; // Termina el programa si hay un error
+    }
+
+    // Aplicar la fórmula exacta solicitada en el enunciado
+    // Llamamos a la función FAC() tres veces con diferentes valores
+    C = FAC(n) / (FAC(r) * FAC(n - r));
+
+    // Mostrar el resultado final
+    cout << "\n--------------------------------------------" << endl;
+    cout << "El valor del numero combinatorio es C = " << C << endl;
+    cout << "--------------------------------------------" << endl;
+
+    return 0;
+}
