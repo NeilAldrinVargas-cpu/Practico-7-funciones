@@ -1,0 +1,59 @@
+#include <iostream>
+
+using namespace std;
+
+// --- FUNCIÓN SOLICITADA ---
+void SISTEMA(double A, double B, double C, double D, double E, double F, double &X, double &Y) {
+    // Calculamos el denominador (determinante)
+    double determinante = (A * E) - (B * D);
+    
+    // Si el determinante es cero, las rectas son paralelas y no se cruzan
+    if (determinante == 0) {
+        cout << "\n[Error] El sistema no tiene una solucion unica." << endl;
+        X = 0;
+        Y = 0;
+        return;
+    }
+    
+    // Aplicación de la regla de Cramer para hallar X e Y
+    X = ((-C * E) - (B * -F)) / determinante;
+    Y = ((A * -F) - (-C * D)) / determinante;
+}
+
+// --- PROGRAMA PRINCIPAL ---
+int main() {
+    // Variables para almacenar los coeficientes que escriba el usuario
+    double cA, cB, cC, cD, cE, cF;
+    
+    // Variables de salida donde la función guardará el resultado
+    double solucionX = 0;
+    double solucionY = 0;
+
+    cout << "=== CALCULADORA DE SISTEMAS DE ECUACIONES ===" << endl;
+    cout << "Para el formato: Ax + By + C = 0" << endl;
+    
+    // 1. Pedir los coeficientes de la primera ecuación
+    cout << "\n--- Primera Ecuacion ---" << endl;
+    cout << "Ingrese A: "; cin >> cA;
+    cout << "Ingrese B: "; cin >> cB;
+    cout << "Ingrese C: "; cin >> cC;
+
+    // 2. Pedir los coeficientes de la segunda ecuación
+    cout << "\n--- Segunda Ecuacion ---" << endl;
+    cout << "Ingrese D: "; cin >> cD;
+    cout << "Ingrese E: "; cin >> cE;
+    cout << "Ingrese F: "; cin >> cF;
+
+    // 3. Llamar a la función pasando las variables
+    // Nota cómo 'solucionX' y 'solucionY' entran vacías (en 0)
+    SISTEMA(cA, cB, cC, cD, cE, cF, solucionX, solucionY);
+
+    // 4. Mostrar los resultados modificados por la función
+    cout << "\n=====================================" << endl;
+    cout << "La solucion al sistema es:" << endl;
+    cout << "X = " << solucionX << endl;
+    cout << "Y = " << solucionY << endl;
+    cout << "=====================================" << endl;
+
+    return 0;
+}
