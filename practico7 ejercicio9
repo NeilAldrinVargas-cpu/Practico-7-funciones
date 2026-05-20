@@ -1,0 +1,49 @@
+#include <iostream>
+#include <cmath> // Necesaria para usar pow() (potencias)
+
+using namespace std;
+
+// --- 1. PROTOTIPO DE LA FUNCIÓN (ARRIBA) ---
+int binarioADecimal(long long x);
+
+// --- 2. PROGRAMA PRINCIPAL ---
+int main() {
+    long long numeroBinario;
+    
+    cout << "=== CONVERTIDOR DE BINARIO A DECIMAL ===" << endl;
+    
+    // Solicitar el número binario al usuario
+    cout << "Ingrese un numero binario (solo 0s y 1s): ";
+    cin >> numeroBinario;
+    
+    // Llamar a la función y guardar su retorno
+    int resultadoDecimal = binarioADecimal(numeroBinario);
+    
+    // Mostrar el resultado final
+    cout << "El equivalente decimal es: " << resultadoDecimal << endl;
+    
+    return 0;
+}
+
+// --- 3. DESARROLLO DE LA FUNCIÓN (ABAJO) ---
+int binarioADecimal(long long x) {
+    int decimal = 0;
+    int posicion = 0;
+    
+    // Mientras nos queden dígitos por procesar
+    while (x > 0) {
+        // Sacamos el último dígito del número (puede ser 0 o 1)
+        int ultimoDigito = x % 10;
+        
+        // Lo multiplicamos por 2 elevado a su posición correspondiente y lo sumamos
+        decimal = decimal + (ultimoDigito * pow(2, posicion));
+        
+        // Eliminamos el último dígito para pasar al siguiente en la próxima vuelta
+        x = x / 10;
+        
+        // Avanzamos de posición (0, luego 1, luego 2, etc.)
+        posicion++;
+    }
+    
+    return decimal; // Devolvemos el resultado final calculado
+}
