@@ -1,0 +1,51 @@
+#include <iostream>
+
+using namespace std;
+
+// --- 1. PROTOTIPO DEL PROCEDIMIENTO (ARRIBA) ---
+// Es void porque es un procedimiento que imprime directamente el resultado
+void convertirARomano(int n);
+
+// --- 2. PROGRAMA PRINCIPAL ---
+int main() {
+    int numero;
+
+    cout << "=== CONVERTIDOR A NUMEROS ROMANOS ===" << endl;
+    
+    // Solicitar el número al usuario
+    cout << "Ingrese un numero entero positivo: ";
+    cin >> numero;
+
+    if (numero <= 0) {
+        cout << "[Error] Los numeros romanos solo representan valores mayores a 0." << endl;
+        return 0;
+    }
+
+    cout << "El numero " << numero << " en romanos es: ";
+    
+    // Llamar al procedimiento
+    convertirARomano(numero);
+    
+    cout << endl; // Salto de línea final
+
+    return 0;
+}
+
+// --- 3. DESARROLLO DEL PROCEDIMIENTO (ABAJO) ---
+void convertirARomano(int n) {
+    // Array con los valores decimales de control (incluye las excepciones de resta como 900, 400, etc.)
+    int valores[] = {1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1};
+    
+    // Array equivalente con los símbolos romanos correspondientes
+    string simbolos[] = {"M", "CM", "D", "CD", "C", "XC", "L", "XL", "X", "IX", "V", "IV", "I"};
+    
+    // Recorremos las posiciones de los arrays (son 13 elementos en total, del índice 0 al 12)
+    for (int i = 0; i < 13; i++) {
+        
+        // Mientras el número actual sea mayor o igual al valor de la tabla
+        while (n >= valores[i]) {
+            cout << simbolos[i]; // Imprimimos la letra romana
+            n = n - valores[i];  // Le restamos el valor equivalente al número N
+        }
+    }
+}
