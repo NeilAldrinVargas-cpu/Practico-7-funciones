@@ -1,0 +1,88 @@
+#include <iostream>
+#include <cmath> // Para usar abs() y asegurar que el resultado sea positivo
+
+using namespace std;
+
+// --- 1. PROTOTIPOS DE LAS FUNCIONES (ARRIBA) ---
+bool esBisiesto(int anio);
+int contarDiasDesdeOrigen(int d, int m, int a);
+void calcularDiasTranscurridos(int d1, int m1, int a1, int d2, int m2, int a2, int &diasResultado);
+
+// --- 2. PROGRAMA PRINCIPAL ---
+int main() {
+    int dia1, mes1, anio1;
+    int dia2, mes2, anio2;
+    int diasTotales = 0;
+
+    cout << "=== CALCULADORA DE DIAS TRANSCURRIDOS ===" << endl;
+    
+    // Entrada de datos de la primera fecha
+    cout << "\n--- Fecha 1 ---" << endl;
+    cout << "Ingrese dia: "; cin >> dia1;
+    cout << "Ingrese mes: "; cin >> mes1;
+    cout << "Ingrese anio: "; cin >> anio1;
+
+    // Entrada de datos de la segunda fecha
+    cout << "\n--- Fecha 2 ---" << endl;
+    cout << "Ingrese dia: "; cin >> dia2;
+    cout << "Ingrese mes: "; cin >> mes2;
+    cout << "Ingrese anio: "; cin >> anio2;
+
+    // Llamamos al procedimiento pasando 'diasTotales' por referencia
+    calcularDiasTranscurridos(dia1, mes1, anio1, dia2, mes2, anio2, diasTotales);
+
+    // Mostrar el resultado
+    cout << "\n-------------------------------------------------" << endl;
+    cout << "Los dias transcurridos entre ambas fechas son: " << diasTotales << " dias." << endl;
+    cout << "-------------------------------------------------" << endl;
+
+    return 0;
+}
+
+// --- 3. DESARROLLO DE LAS FUNCIONES (ABAJO) ---
+
+// Función auxiliar: Determina si un año es bisiesto o no
+bool esBisiesto(int anio) {
+    return (anio % 4 == 0 && anio % 100 != 0) || (anio % 400 == 0);
+}
+
+// Función auxiliar: Calcula el total de días desde el año 1 hasta la fecha dada
+int contarDiasDesdeOrigen(int d, int m, int a) {
+    // Array con los días de cada mes (asumiendo año no bisiesto inicialmente)
+    int diasMes[] = {0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+    
+    // 1. Contar los días aportados por los años completos anteriores
+    int totalDias = (a - 1) * 365;
+    
+    // Sumar un día extra por cada año bisiesto que ya pasó
+    for (int i = 1; i < a; i++) {
+        if (esBisiesto(i)) {
+            totalDias++;
+        }
+    }
+    
+    // 2. Contar los días de los meses completos del año actual
+    for (int i = 1; i < m; i++) {
+        if (i == 2 && esBisiesto(a)) {
+            totalDias += 29; // Si el año actual es bisiesto, febrero aporta 29
+        } else {
+            totalDias += diasMes[i];
+        }
+    }
+    
+    // 3. Sumar los días del mes actual
+    totalDias += d;
+    
+    return totalDias;
+}
+
+// PROCEDIMIENTO PRINCIPAL SOLICITADO
+// Recibe las dos fechas y devuelve la diferencia en 'diasResultado' (por referencia)
+void calcularDiasTranscurridos(int d1, int m1, int a1, int d2, int m2, int a2, int &diasResultado) {
+    
+    int totalDiasFecha1 = contarDiasDesdeOrigen(d1, m1, a1);
+    int totalDiasFecha2 = contarDiasDesdeOrigen(d2, m2, a2);
+    
+    // La resta absoluta nos garantiza un resultado correcto sin importar cuál fecha sea más antigua
+    diasResultado = abs(totalDiasFecha2 - totalDiasFecha1);
+}
