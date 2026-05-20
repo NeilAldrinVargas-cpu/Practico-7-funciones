@@ -1,0 +1,56 @@
+#include <iostream>
+
+using namespace std;
+
+// --- PROTOTIPO DE LA FUNCIÓN (ARRIBA) ---
+// Retorna 'true' si la fecha es correcta y 'false' si no lo es
+bool validarFecha(int dia, int mes, int anio);
+
+// --- PROGRAMA PRINCIPAL ---
+int main() {
+    int d, m, a;
+
+    cout << "=== VALIDADOR DE FECHAS ===" << endl;
+    cout << "Ingrese el dia: "; cin >> d;
+    cout << "Ingrese el mes: "; cin >> m;
+    cout << "Ingrese el anio: "; cin >> a;
+
+    // Llamamos a la función dentro de una estructura condicional
+    if (validarFecha(d, m, a)) {
+        cout << "\n[RESULTADO] La fecha es VALIDA." << endl;
+    } else {
+        cout << "\n[RESULTADO] La fecha es INVALIDA." << endl;
+    }
+
+    return 0;
+}
+
+// --- DESARROLLO DE LA FUNCIÓN (ABAJO) ---
+bool validarFecha(int dia, int mes, int anio) {
+    // 1. Validar rangos básicos de año y mes
+    if (anio <= 0 || mes < 1 || mes > 12) {
+        return false; 
+    }
+
+    // 2. Determinar los días máximos que tiene el mes ingresado
+    int diasMaximos = 31; // La mayoría tiene 31
+
+    if (mes == 4 || mes == 6 || mes == 9 || mes == 11) {
+        diasMaximos = 30;
+    } 
+    else if (mes == 2) {
+        // Verificar si el año es bisiesto
+        if ((anio % 4 == 0 && anio % 100 != 0) || (anio % 400 == 0)) {
+            diasMaximos = 29; // Año bisiesto
+        } else {
+            diasMaximos = 28; // Año común
+        }
+    }
+
+    // 3. Validar si el día ingresado está en el rango correcto
+    if (dia < 1 || dia > diasMaximos) {
+        return false;
+    }
+
+    return true; // Si pasó todos los filtros, la fecha está perfecta
+}
