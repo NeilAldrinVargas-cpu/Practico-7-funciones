@@ -1,0 +1,115 @@
+#include <iostream>
+#include <string>
+#include <cmath> // Para round() que evita errores de redondeo en decimales
+
+using namespace std;
+
+// --- 1. PROTOTIPOS DE LAS FUNCIONES (ARRIBA) ---
+string convertirUnidades(int u);
+string convertirDecenas(int d);
+string convertirCentenas(int c);
+string numeroALiteral(double r);
+
+// --- 2. PROGRAMA PRINCIPAL ---
+int main() {
+    double monto;
+
+    cout << "=== CONVERTIDOR DE MONEDA A LITERAL ===" << endl;
+    cout << "Ingrese el monto en Bs (hasta 4 cifras enteras, ej 1560.50): ";
+    cin >> monto;
+
+    if (monto < 0 || monto > 9999.99) {
+        cout << "[Error] El programa esta diseñado para montos entre 0.00 y 9999.99" << endl;
+        return 0;
+    }
+
+    // Llamamos a la función principal y mostramos el string resultante
+    string resultado = numeroALiteral(monto);
+    cout << "\nResultado literal:\n\"" << resultado << "\"" << endl;
+
+    return 0;
+}
+
+// --- 3. DESARROLLO DE LAS FUNCIONES (ABAJO) ---
+
+// Convierte números del 1 al 9
+string convertirUnidades(int u) {
+    string unidades[] = {"", "un", "dos", "tres", "cuatro", "cinco", "seis", "siete", "ocho", "nueve"};
+    return unidades[u];
+}
+
+// Convierte decenas del 10 al 99 (controlando los casos especiales de los "diecis")
+string convertirDecenas(int d) {
+    if (d < 10) return convertirUnidades(d);
+    if (d == 10) return "diez";
+    if (d == 11) return "once";
+    if (d == 12) return "doce";
+    if (d == 13) return "trece";
+    if (d == 14) return "catorce";
+    if (d == 15) return "quince";
+    if (d >= 16 && d <= 19) return "dieci" + convertirUnidades(d % 10);
+    if (d == 20) return "veinte";
+    if (d >= 21 && d <= 29) return "veinti" + convertirUnidades(d % 10);
+    
+    // Decenas mayores a 30
+    string decenasTexto[] = {"", "", "", "treinta", "cuarenta", "cincuenta", "sesenta", "setenta", "ochenta", "noventa"};
+    int dec = d / 10;
+    int uni = d % 10;
+    
+    if (uni == 0) return decenasTexto[dec];
+    else return decenasTexto[dec] + " y " + convertirUnidades(uni);
+}
+
+// Convierte centenas del 100 al 999
+string convertirCentenas(int c) {
+    if (c == 100) return "cien";
+    
+    string centenasTexto[] = {"", "ciento", "doscientos", "trescientos", "cuatrocientos", "quinientos", "seiscientos", "setecientos", "ochocientos", "novecientos"};
+    int cen = c / 100;
+    int resto = c % 100;
+    
+    if (resto == 0) return centenasTexto[cen];
+    else return centenasTexto[cen] + " " + convertirDecenas(resto);
+}
+
+// FUNCION PRINCIPAL: Junta miles, cientos, decenas y agrega el sufijo contable
+string numeroALiteral(double r) {
+    // 1. Separar la parte entera de los decimales de manera segura
+    int parteEntera = (int)r;
+    // Multiplicamos por 100 y redondeamos para evitar que 0.50 se vuelva 0.49999 internamente
+    int centavos = (int)round((r - parteEntera) * 100); 
+
+    if (parteEntera == 0) {
+        return "cero " + to_string(centavos) + "/100 bolivianos";
+    }
+
+    // Descomponer la parte entera (hasta 4 cifras: ej 1560)
+    int miles = parteEntera / 1000;          // 1
+    int restoMiles = parteEntera % 1000;     // 560
+
+    string resultadoTxt = "";
+
+    // Evaluar los Miles
+    if (miles > 0) {
+        if (miles == 1) {
+            resultadoTxt += "un mil "; // Requisito literal exacto de tu ejemplo: "un mil"
+        } else {
+            resultadoTxt += convertirUnidades(miles) + " mil ";
+        }
+    }
+
+    // Evaluar el resto de los números (Centenas, decenas y unidades)
+    if (restoMiles >= 100) {
+        resultadoTxt += convertirCentenas(restoMiles);
+    } else if (restoMiles > 0) {
+        resultadoTxt += convertirDecenas(restoMiles);
+    }
+
+    // 2. Adjuntar los decimales y la moneda final
+    string strCentavos = to_string(centavos);
+    if (centavos < 10) strCentavos = "0" + strCentavos; // Da formato por si es "05/100"
+
+    resultadoTxt += " " + strCentavos + "/100 bolivianos";
+
+    return resultadoTxt;
+}
