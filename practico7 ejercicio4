@@ -1,48 +1,68 @@
 #include <iostream>
 #include <cmath>
 #include <iomanip>
+#include <string> // Necesario para armar el texto de la operación
 
 using namespace std;
+
 float NUMERADOR(float base, int exponente);
 int FACTORIAL(int numero);
 
-int main(){
+int main() {
     int X, N;
-    float sumaTotal=0;
+    float sumaTotal = 0;
+    string operacion = ""; // Aquí guardaremos el texto de la operación
 
-    cout<<"---CALCULADORA---"<<endl;
-    cout<<"Ingrese el valor de x:";
-    cin>>X;
-    cout<<"Ingrese el valor de N:";
-    cin>>N;
+    cout << "---CALCULADORA---" << endl;
+    cout << "Ingrese el valor de x: ";
+    cin >> X;
+    cout << "Ingrese el valor de N: ";
+    cin >> N;
 
-
-    if(X<=0 || N<=0){
-        cout<<"No se puede hacer la operacion"<<endl;
-         return 1;
+    if (X <= 0 || N <= 0) {
+        cout << "No se puede hacer la operacion" << endl;
+        return 1;
     }
 
-for (int i = 1; i <= N; i++) {
-        int impar=(2*i)-1;
+    for (int i = 1; i <= N; i++) {
+        int impar = (2 * i) - 1;
         float termino = NUMERADOR(X, impar) / FACTORIAL(impar);
-        sumaTotal += termino;
-if(i%2!=0){
-    sumaTotal=sumaTotal+termino;
-}else{
-  sumaTotal-=termino;
-}
+        
+        // --- CONSTRUCCIÓN DE LA OPERACIÓN VISUAL ---
+        // Si no es el primer término, añadimos el signo correspondiente al texto
+        if (i > 1) {
+            if (i % 2 != 0) {
+                operacion += " + ";
+            } else {
+                operacion += " - ";
+            }
+        }
+        // Añadimos el término actual en formato de fracción (ej: 5^3/3!)
+        operacion += " (" + to_string(X) + "^" + to_string(impar) + " / " + to_string(impar) + "!)";
+
+        // --- CÁLCULO MATEMÁTICO (Corregido) ---
+        if (i % 2 != 0) {
+            sumaTotal += termino;  // Suma en los términos impares (i = 1, 3, 5...)
+        } else {
+            sumaTotal -= termino;  // Resta en los términos pares (i = 2, 4, 6...)
+        }
     }
-    cout<<fixed<<setprecision(3);
-  cout<<"el resultado de la suma es: "<< sumaTotal<<endl;
-return 0;
+
+    // Configuración de decimales
+    cout << fixed << setprecision(3);
+    
+    // --- MOSTRAR RESULTADOS ---
+    cout << "\n--- DESGLOSE DE LA OPERACION ---" << endl;
+    cout << operacion << endl; 
+    
+    cout << "\nEl resultado de la suma es: " << sumaTotal << endl;
+
+    return 0;
 }
 
-float NUMERADOR(float base, int exponente){
-   float numerador=pow(base, exponente);
-   return numerador;
+float NUMERADOR(float base, int exponente) {
+    return pow(base, exponente);
 }
-
-
 
 int FACTORIAL(int numero) {
     int factorial = 1;
